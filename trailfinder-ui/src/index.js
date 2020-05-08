@@ -3,9 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './Trailfinder_Bootstrap_Customization.css';
+import AllNav from './navbar';
 
 ReactDOM.render(
   <React.StrictMode>
+  <AllNav />
     <App />
   </React.StrictMode>,
   document.getElementById('root')
