@@ -6,17 +6,22 @@ import {
     Link
   } from 'react-router-dom';
 import { Row, Col, Jumbotron, Button, Container, FormGroup, Form, Label, Input } from 'reactstrap';
-import logo from './TrailfinderLogo.png';
+import logo from './TrailfinderLogo2.png';
+import './landing.css';
+
+
+
 
 const Landing = (props) => {
     return (
         <div>
             <Row>
                 <Col>
-                    <Jumbotron id="landing-jumbo" className="text-center m-0 justify-content-center bg-dark text-light">
+                    <Jumbotron id="landing-jumbo" className="jumbotron-fluid text-center m-0 justify-content-center bg-dark text-light">
                         <Container fluid>
-                            <h1 className="display-3"><img src={logo}></img>Trailfinder</h1>
-                            <p className="lead">Find trails, plan trips. Easy.</p>
+                        <img src={logo}></img>
+                            {/* <h1 className="display-3">Trailfinder</h1> */}
+                            <p className="lead mt-3">Find trails, plan trips. Easy.</p>
                             {/* <hr className="my-2" /> */}
                         <Row className="mt-5">
                             <Col className="d-flex justify-content-center">
@@ -30,7 +35,7 @@ const Landing = (props) => {
                                             placeholder="search placeholder"
                                         />
                                     </FormGroup>
-                                    <Button>Take a hike!</Button>
+                                    <Button color="primary">Take a hike!</Button>
                                 </Form>
                                 
                             </Col>
