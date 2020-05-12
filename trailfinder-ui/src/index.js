@@ -1,11 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './Trailfinder_Bootstrap_Customization.css';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import AllNav from './navbar';
 
 ReactDOM.render(
   <React.StrictMode>
+  <AllNav />
     <App />
   </React.StrictMode>,
   document.getElementById('root')
