@@ -31,27 +31,32 @@ function SearchResults(props) {
       // Places a marker on the map
       const createMarker = (x,gmap) =>{
       console.log(x);
-
           return new window.google.maps.Marker({
               position: { lat: x.latitude, lng: x.longitude },
               map: gmap,
-          })}
+          })
+          
+        }
 
-    //     useEffect((props) => {
-    //             googleMap = createGoogleMap(props.latLong)
-    //             props.results.data.trails.map(x => createMarker(x));
-    //         });
-    // });
+//new window.google.maps.LatLng(marker.position.lat(), marker.position.lng())
 
     useEffect(() => {
         console.log("FIREST THE EFFECTS!:", props);
         if (props.googleMapsReady) {
             // debugger;
             const gmap = createGoogleMap(props.latLong);
+            const bounds = new window.google.maps.LatLngBounds();
             // debugger;
-            props.results.data.trails.map(x => createMarker(x,gmap));
+            props.results.data.trails.map(function(x){const marker = createMarker(x,gmap); 
+                const loc = new window.google.maps.LatLng(
+                    x.latitude, x.longitude
+                    )
+                    bounds.extend(loc);
+                });
+            gmap.fitBounds(bounds);
+            gmap.panToBounds(bounds);
         }
-}, [props.googleMapsReady]);
+}, [props.googleMapsReady, props]);
 
 
 // createGoogleMap(props.latLong);
