@@ -38,7 +38,7 @@ function App() {
   const [latLong, setLatLong] = useState({});
   const [googleMapsReady, setGoogleMapsReady] = useState(false);
 
-  const googleMapRef = useRef();
+  // const googleMapRef = useRef();
 
   
 
@@ -63,23 +63,25 @@ function App() {
     loadGoogleMaps(()=>{setGoogleMapsReady(true)})
   }, [])
 
-    // Creates a google map with given data
-    const createGoogleMap = (x) =>
-        new window.google.maps.Map(googleMapRef.current, {
-            zoom: 16,
-            center: {
-                lat: x.lat,
-                lng: x.lng,
-            },
-            disableDefaultUI: true,
-        })
+    // // Creates a google map with given data
+    // const createGoogleMap = (x) =>{
+    //   console.log(window.google);
+    //   debugger;
+    //   return new window.google.maps.Map(googleMapRef.current, {
+    //         zoom: 16,
+    //         center: {
+    //             lat: x.lat,
+    //             lng: x.lng,
+    //         },
+    //         disableDefaultUI: true,
+    //     })}
 
-    // Places a marker on the map
-    const createMarker = (x) =>
-        new window.google.maps.Marker({
-            position: { lat: x.lattitude, lng: x.longitude },
-            map: this.googleMap,
-        })
+    // // Places a marker on the map
+    // const createMarker = (x) =>
+    //     new window.google.maps.Marker({
+    //         position: { lat: x.lattitude, lng: x.longitude },
+    //         map: this.googleMap,
+    //     })
 
 
 
@@ -166,23 +168,6 @@ function App() {
     )
   }
 
-  // Creates a google map with given data
-  // const createGoogleMap = (x) =>
-  //   new window.google.maps.Map(this.googleMapRef.current, {
-  //     zoom: 16,
-  //     center: {
-  //       lat: x.lat,
-  //       lng: x.lng,
-  //     },
-  //     disableDefaultUI: true,
-  //   })
-
-  // // Places a marker on the map
-  // const createMarker = (x) =>
-  //   new window.google.maps.Marker({
-  //     position: { lat: x.lattitude, lng: x.longitude },
-  //     map: this.googleMap,
-  //   })
 
 
   // Router handling pathing to pages
@@ -217,8 +202,8 @@ function App() {
           results={results}
           address={address}
           generateResults={generateResults}
-          createGoogleMap={createGoogleMap}
-          createMarker={createMarker}
+          // createGoogleMap={createGoogleMap}
+          // createMarker={createMarker}
           googleMapsReady={googleMapsReady}
           latLong={latLong}
         // state={this.state}

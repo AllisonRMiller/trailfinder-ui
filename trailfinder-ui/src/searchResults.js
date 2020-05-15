@@ -15,16 +15,42 @@ function SearchResults(props) {
     const googleMapRef = useRef();
     // const googleMapRef = createRef();
 
+     // Creates a google map with given data
+    //  Attempt to put this in another file and pass it the ref
+     const createGoogleMap = (x) =>{
+        console.log(window.google);
+        // debugger;
+        return new window.google.maps.Map(googleMapRef.current, {
+              zoom: 16,
+              center: {
+                  lat: x.lat,
+                  lng: x.lng,
+              },
+              disableDefaultUI: true,
+          })}
+  
+      // Places a marker on the map
+      const createMarker = (x,gmap) =>{
+      console.log(x);
+      debugger;
+          return new window.google.maps.Marker({
+              position: { lat: x.latitude, lng: x.longitude },
+              map: gmap,
+          })}
+
     //     useEffect((props) => {
     //             googleMap = createGoogleMap(props.latLong)
     //             props.results.data.trails.map(x => createMarker(x));
     //         });
     // });
 
-    useEffect((props) => {
+    useEffect(() => {
+        console.log("FIREST THE EFFECTS!:", props);
         if (props.googleMapsReady) {
-            props.createGoogleMap(props.latLong);
-            props.results.data.trails.map(x => props.createMarker(x));
+            // debugger;
+            const gmap = createGoogleMap(props.latLong);
+            debugger;
+            props.results.data.trails.map(x => createMarker(x,gmap));
         }
 }, [props.googleMapsReady]);
 
