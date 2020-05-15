@@ -19,7 +19,6 @@ function SearchResults(props) {
     //  Attempt to put this in another file and pass it the ref
      const createGoogleMap = (x) =>{
         console.log(window.google);
-        // debugger;
         return new window.google.maps.Map(googleMapRef.current, {
               zoom: 16,
               center: {
@@ -32,7 +31,7 @@ function SearchResults(props) {
       // Places a marker on the map
       const createMarker = (x,gmap) =>{
       console.log(x);
-      debugger;
+
           return new window.google.maps.Marker({
               position: { lat: x.latitude, lng: x.longitude },
               map: gmap,
@@ -49,7 +48,7 @@ function SearchResults(props) {
         if (props.googleMapsReady) {
             // debugger;
             const gmap = createGoogleMap(props.latLong);
-            debugger;
+            // debugger;
             props.results.data.trails.map(x => createMarker(x,gmap));
         }
 }, [props.googleMapsReady]);
