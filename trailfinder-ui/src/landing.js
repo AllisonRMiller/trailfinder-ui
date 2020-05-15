@@ -91,7 +91,8 @@ function Landing(props) {
                   <Form className="w-25">
                     <FormGroup>
                       <Label>Where are you going?</Label>
-                      <PlacesAutocomplete
+                      {props.googleMapsReady &&
+                      (<PlacesAutocomplete
                         value={props.address}
                         onChange={props.handleChange}
                       // onSubmit={handleSelect}
@@ -124,7 +125,8 @@ function Landing(props) {
                             </Dropdown>
                           </div>
                         )}
-                      </PlacesAutocomplete>
+                      </PlacesAutocomplete>)
+                      }
                       {/* <Input //className="w-25"
                                             type="search"
                                             name="search"
