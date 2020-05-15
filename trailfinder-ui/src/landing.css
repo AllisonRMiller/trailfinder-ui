@@ -5,6 +5,7 @@ body {
 #landing-jumbo{
     background-image: url("Summer_Trip_2016_pt_1_117.JPG");
     width: 100vw;
+    height: 90vh;
     background-size: cover;
     background-position: 10%;
     overflow: hidden;

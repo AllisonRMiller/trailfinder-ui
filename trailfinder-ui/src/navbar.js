@@ -48,7 +48,7 @@ const AllNav = (props) => {
               <NavLink href="/about">About</NavLink>
             </NavItem>
           </Nav>
-          <Nav navbar right>
+          <Nav navbar right="true">
             <NavItem>
               <NavLink href="/login">Log In</NavLink>
             </NavItem>
