@@ -28,6 +28,7 @@ import SearchResults from './searchResults.js';
 import Trail from './trail.js';
 import Error from './error.js';
 import Dashboard from './dashboard.js';
+import AllNav from './navbar.js';
 
 // Import resources
 import './App.css';
@@ -42,11 +43,13 @@ function App() {
   var userInfo = JSON.parse(localStorage.getItem("userInfo"));
   userInfo = userInfo ? userInfo : {};
   const [user, setUser] = useState(userInfo);
+  const [isLoggedIn, setisLoggedIn] = useState(false)
   // const googleMapRef = useRef();
 
 
   const setUserInfo = (info) => {
     setUser(info);
+    setisLoggedIn(true);
     localStorage.setItem("userInfo", JSON.stringify(info))
   }
 
@@ -161,7 +164,9 @@ function App() {
 
   // Router handling pathing to pages
   return (
-
+    <div>
+    <AllNav
+    isLoggedIn={isLoggedIn} />
     <Switch>
       <Route exact path="/"
       >
@@ -208,7 +213,7 @@ function App() {
       </Route>
       <Route path="/trail/:id">
         <Trail
-          user={user}
+          isLoggedIn={isLoggedIn}
           results={results}
           generateResults={generateResults}
           googleMapsReady={googleMapsReady}
@@ -226,7 +231,7 @@ function App() {
       {/* <Route path="/homepage" render={props => 
   (<Homepage {...props} pieceOfState={this.state.pieceOfState}/>)
 }/> */}
-    </Switch>
+    </Switch></div>
   );
 }
 

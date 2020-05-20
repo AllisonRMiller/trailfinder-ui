@@ -114,13 +114,22 @@ function Trail(props) {
     };
 
 
+    // const saveTrail = () => {
+        
+    // }
+
+
+
+
     return (
         <div id="singletrail" className="p-5">
             <Container mw-75="true" mh-75="true" center="true" className="bg-white">
                 <Row>
                     <Col>
                         <h3 className="bg-white mt-3 mb-3">{thisTrail ? thisTrail.name : null}</h3>
-                        <Button className="float-right">{hikeSave} Save Trail</Button>
+                        <Button 
+                        // onClick={saveTrail} 
+                        className="float-right">{hikeSave} Save Trail</Button>
                         <Badge color={badgecolor} className="mr-2 text-light">{difficulty}</Badge>
                         <Rating
                             initialRating={stars}
