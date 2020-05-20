@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Collapse,
   Navbar,
@@ -8,7 +8,6 @@ import {
   NavItem,
   NavLink
 } from 'reactstrap';
-import { useParams } from 'react-router-dom';
 
 const AllNav = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,8 +20,13 @@ const AllNav = (props) => {
   // Need to change appearance of login/signup if a user is already logged in
 
   // let UserButtons;
+useEffect(() => {
+  console.log(props.isLoggedIn);
 
-  const userControls = (props) => {
+}, [props.isLoggedIn])
+
+
+  const userControls = () => {
     if (props.isLoggedIn) {
       // debugger;
       return (

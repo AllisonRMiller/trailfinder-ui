@@ -1,4 +1,8 @@
 import React, { useEffect, useRef } from 'react';
+import axios from 'axios';
+import {
+    useHistory
+  } from 'react-router-dom';
 import Rating from 'react-rating';
 import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,8 +13,8 @@ import { Row, Col, CardTitle, CardImg, Container, Card, CardSubtitle, CardText, 
 
 function Trail(props) {
     let { id } = useParams();
-    console.log("Arrived at Trail", props, id)
-
+    console.log("Arrived at Trail", props.isLoggedIn)
+    const history = useHistory();
 
     const googleMapRef = useRef();
     // const googleMapRef = createRef();
@@ -114,9 +118,20 @@ function Trail(props) {
     };
 
 
-    // const saveTrail = () => {
-        
-    // }
+    const saveTrail = async (id) => {
+
+            await axios.post('http://localhost:8000/api/trail', id)
+              .then(async function (response) {
+                console.log(response);
+              }
+              )
+              // .then(console.log(results))
+              .catch(function (error) {
+                console.log('Error: ', error);
+                history.push('/error')
+              })
+          }
+    
 
 
 
@@ -127,9 +142,11 @@ function Trail(props) {
                 <Row>
                     <Col>
                         <h3 className="bg-white mt-3 mb-3">{thisTrail ? thisTrail.name : null}</h3>
+                        {/* {props.isLoggedIn &&  */}
                         <Button 
-                        // onClick={saveTrail} 
-                        className="float-right">{hikeSave} Save Trail</Button>
+                        onClick={saveTrail(id)} 
+                        className="float-right button-primary">{hikeSave} Save Trail</Button>
+                        {/* } */}
                         <Badge color={badgecolor} className="mr-2 text-light">{difficulty}</Badge>
                         <Rating
                             initialRating={stars}

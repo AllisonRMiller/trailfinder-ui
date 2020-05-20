@@ -171,6 +171,7 @@ function App() {
       <Route exact path="/"
       >
         <Landing
+        isLoggedIn={isLoggedIn}
           handleChange={handleChange}
           handleSelect={handleSearchClick}
           address={address}
@@ -199,6 +200,7 @@ function App() {
       <Route path="/searchresults"
       >
         <SearchResults
+        isLoggedIn={isLoggedIn}
           user={user}
           results={results}
           address={address}
@@ -221,10 +223,13 @@ function App() {
       </Route>
       <Route path="/error"
       >
-        <Error />
+        <Error 
+          isLoggedIn={isLoggedIn}
+        />
       </Route>
       <Route path="/dashboard">
         <Dashboard
+        isLoggedIn={isLoggedIn}
           // user={user}
         />
       </Route>
