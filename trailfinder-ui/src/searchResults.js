@@ -113,14 +113,14 @@ function SearchResults(props) {
 
 return (
     <div id="resultsrender">
-        <Container mt-5 mw-75 mh-75 center="true" className="bg-white">
-            <Row mt-5>
+        <Container mw-75="true" mh-75="true" center="true" className="bg-white">
+            <Row>
                 <Col>
                     <h2>Hikes near {props.address}</h2>
                     <Container>
                         <Row>
 
-                            <Col m-3 id="resultsDisplay">
+                            <Col m-3="true" id="resultsDisplay">
 
                                 {props.results.data.trails.map(x => props.generateResults(x))}
                             </Col>

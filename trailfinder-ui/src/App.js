@@ -26,6 +26,8 @@ import LoginForm from './login.js';
 import SearchResults from './searchResults.js';
 // import SignupForm from './signup.js';
 import Trail from './trail.js';
+import Error from './error.js';
+import Dashboard from './dashboard.js';
 
 // Import resources
 import './App.css';
@@ -37,51 +39,38 @@ function App() {
   const [results, setResults] = useState({});
   const [latLong, setLatLong] = useState({});
   const [googleMapsReady, setGoogleMapsReady] = useState(false);
-
+  var userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  userInfo = userInfo ? userInfo : {};
+  const [user, setUser] = useState(userInfo);
   // const googleMapRef = useRef();
 
-  
 
+  const setUserInfo = (info) => {
+    setUser(info);
+    localStorage.setItem("userInfo", JSON.stringify(info))
+  }
 
   useEffect(() => {
     const loadGoogleMaps = (callback) => {
       const existingScript = document.getElementById('googleMaps');
-    
+
       if (!existingScript) {
         const script = document.createElement('script');
         script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyATEgAhkU0SLNGbmzp5td2pC-VL2cZBot0&libraries=places';
         script.id = 'googleMaps';
         document.body.appendChild(script);
-    
+
         script.onload = () => {
           if (callback) callback();
         };
       }
-    
+
       if (existingScript && callback) callback();
     };
-    loadGoogleMaps(()=>{setGoogleMapsReady(true)})
+    loadGoogleMaps(() => { setGoogleMapsReady(true) })
   }, [])
 
-    // // Creates a google map with given data
-    // const createGoogleMap = (x) =>{
-    //   console.log(window.google);
-    //   debugger;
-    //   return new window.google.maps.Map(googleMapRef.current, {
-    //         zoom: 16,
-    //         center: {
-    //             lat: x.lat,
-    //             lng: x.lng,
-    //         },
-    //         disableDefaultUI: true,
-    //     })}
-
-    // // Places a marker on the map
-    // const createMarker = (x) =>
-    //     new window.google.maps.Marker({
-    //         position: { lat: x.lattitude, lng: x.longitude },
-    //         map: this.googleMap,
-    //     })
+  //Login
 
 
 
@@ -187,11 +176,17 @@ function App() {
       </Route>
       <Route path="/login">
         <LoginForm
+          setUserInfo={setUserInfo}
+          isSignup={false}
         // state={this.state}
         />
       </Route>
       <Route path="/signup">
         <LoginForm
+          setUserInfo={setUserInfo}
+
+          isSignup={true}
+        // login={signup}
         // state={this.state}
 
         />
@@ -199,6 +194,7 @@ function App() {
       <Route path="/searchresults"
       >
         <SearchResults
+          user={user}
           results={results}
           address={address}
           generateResults={generateResults}
@@ -212,13 +208,21 @@ function App() {
       </Route>
       <Route path="/trail/:id">
         <Trail
+          user={user}
           results={results}
+          generateResults={generateResults}
+          googleMapsReady={googleMapsReady}
         />
       </Route>
-      {/* <Route path="/error"
-        >
-          <Error state={this.state}/>
-        </Route> */}
+      <Route path="/error"
+      >
+        <Error />
+      </Route>
+      <Route path="/dashboard">
+        <Dashboard
+          // user={user}
+        />
+      </Route>
       {/* <Route path="/homepage" render={props => 
   (<Homepage {...props} pieceOfState={this.state.pieceOfState}/>)
 }/> */}
@@ -229,7 +233,7 @@ function App() {
 // Wrapper because this is the only way useHistory works ???
 function Wrapper() {
   return <Router>
-  <App></App>
+    <App></App>
   </Router>
 }
 

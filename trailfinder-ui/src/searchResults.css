@@ -4,8 +4,9 @@
 
 #resultsrender {
     background-image: url("Summer_Trip_2016_pt_1_373.JPG");
-    height: 100vh;
+    height: 92vh;
     background-size: cover;
     background-position: 10%;
     overflow: hidden;
+    padding-top: 2%;
 }
