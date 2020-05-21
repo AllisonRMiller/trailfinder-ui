@@ -43,10 +43,23 @@ function Trail(props) {
         })
 
     }
-
-    const thisTrail = props.results ? props.results.data.trails.find(trail => trail.id == id) : {};
+    var localResults = JSON.parse(localStorage.getItem("results"));
+    var thisTrail = {}
+    if (localResults != null){
+        thisTrail = localResults.data.trails.find(trail => trail.id == id)
+    } else{
+        thisTrail = props.results.data.trails.find(trail => trail.id == id)
+    }
+    
     console.log(thisTrail);
     //new window.google.maps.LatLng(marker.position.lat(), marker.position.lng())
+
+    // useEffect(() => {
+    //     props.logged();
+    //     console.log(props.isLoggedIn)
+    
+    // }, [props.isLoggedIn, props.logged, props])
+
 
     useEffect(() => {
         console.log("FIREST THE EFFECTS!:", thisTrail);
@@ -63,7 +76,7 @@ function Trail(props) {
             // gmap.fitBounds(bounds);
             // gmap.panToBounds(bounds);
         }
-    }, [props.googleMapsReady, thisTrail]);
+    }, [props.logged, props.googleMapsReady, thisTrail, props]);
     //Once database is set up--run check to see if trail is in local storage>recent calls>then query API.
     // debugger;
     // const thisTrail = 
@@ -120,7 +133,13 @@ function Trail(props) {
 
     const saveTrail = async (id) => {
 
-            await axios.post('http://localhost:8000/api/trail', id)
+        const data ={
+            headers: {Authorization: "Bearer " + props.token},
+            api_id: id
+        };
+        console.log(data);
+
+            await axios.post('http://localhost:8000/api/trail', data)
               .then(async function (response) {
                 console.log(response);
               }
@@ -142,11 +161,11 @@ function Trail(props) {
                 <Row>
                     <Col>
                         <h3 className="bg-white mt-3 mb-3">{thisTrail ? thisTrail.name : null}</h3>
-                        {/* {props.isLoggedIn &&  */}
+                        {props.token!==null && 
                         <Button 
-                        onClick={saveTrail(id)} 
+                        onClick={()=>saveTrail(id)} 
                         className="float-right button-primary">{hikeSave} Save Trail</Button>
-                        {/* } */}
+                        }
                         <Badge color={badgecolor} className="mr-2 text-light">{difficulty}</Badge>
                         <Rating
                             initialRating={stars}

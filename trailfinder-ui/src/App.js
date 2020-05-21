@@ -43,16 +43,36 @@ function App() {
   var userInfo = JSON.parse(localStorage.getItem("userInfo"));
   userInfo = userInfo ? userInfo : {};
   const [user, setUser] = useState(userInfo);
-  const [isLoggedIn, setisLoggedIn] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [auth, setAuth] = useState({});
+
   // const googleMapRef = useRef();
+
+useEffect(() => {
+  console.log("Are we logged in?: ", isLoggedIn);
+
+}, [isLoggedIn]);
 
 
   const setUserInfo = (info) => {
     setUser(info);
-    setisLoggedIn(true);
+    setIsLoggedIn(true);
     localStorage.setItem("userInfo", JSON.stringify(info))
   }
 
+ const logged = () =>{
+   var userStuff = JSON.parse(localStorage.getItem('userInfo'));
+   var token = userStuff.token;
+  //  debugger;
+   console.log(token);
+   if (token !== null){
+     setIsLoggedIn(true);
+    setAuth(JSON.parse(token))
+   }
+ }
+
+
+  
   useEffect(() => {
     const loadGoogleMaps = (callback) => {
       const existingScript = document.getElementById('googleMaps');
@@ -83,9 +103,23 @@ function App() {
   //Stores the search location's name in state
   const handleChange = (e) => {
     // console.log(e);
-    setAddress(e)
+    setAddress(e);
+
   };
 
+  const token = JSON.parse(localStorage.getItem('userInfo')).token;
+  // const logout = () =>{
+
+  // const logoutInfo = {
+//headers: { Authorization: "Bearer " +auth.token}
+  //}
+
+  //   await axios.post(`http://localhost:8000/api/logout`, logoutInfo)
+  //     .then(async function (response) {
+  //       console.log(response);
+  //       return response.data;
+  //     })
+  // }
 
 
   //Handle the "Take a Hike!" button click, execute geocoding, store lat/lng, trigger call to API
@@ -105,7 +139,11 @@ function App() {
       .then(async function (response) {
         console.log(response);
         await setResults(response);
+        await localStorage.setItem("results", JSON.stringify(response));
         setLatLong(latLng);
+        localStorage.setItem("latLng", JSON.stringify(latLng));
+        localStorage.setItem("address", JSON.stringify(address));
+        // debugger;
         // pickRoute();
         if (response.data.success === 1 && response.data.trails.length !== 0) {
           history.push('/searchresults')
@@ -166,12 +204,17 @@ function App() {
   return (
     <div>
     <AllNav
-    isLoggedIn={isLoggedIn} />
+    token={token}
+    // isLoggedIn={isLoggedIn}
+    // setAuth={setAuth}
+    //   logged={logged}
+     />
     <Switch>
       <Route exact path="/"
       >
         <Landing
-        isLoggedIn={isLoggedIn}
+      //       isLoggedIn={isLoggedIn}
+      // logged={logged}
           handleChange={handleChange}
           handleSelect={handleSearchClick}
           address={address}
@@ -200,7 +243,8 @@ function App() {
       <Route path="/searchresults"
       >
         <SearchResults
-        isLoggedIn={isLoggedIn}
+            isLoggedIn={isLoggedIn}
+      logged={logged}
           user={user}
           results={results}
           address={address}
@@ -215,7 +259,7 @@ function App() {
       </Route>
       <Route path="/trail/:id">
         <Trail
-          isLoggedIn={isLoggedIn}
+    token={token}
           results={results}
           generateResults={generateResults}
           googleMapsReady={googleMapsReady}
@@ -224,15 +268,19 @@ function App() {
       <Route path="/error"
       >
         <Error 
-          isLoggedIn={isLoggedIn}
+              isLoggedIn={isLoggedIn}
+      logged={logged}
         />
       </Route>
       <Route path="/dashboard">
         <Dashboard
-        isLoggedIn={isLoggedIn}
+                token={token}
           // user={user}
         />
       </Route>
+      {/* <Route path="/logout">
+        
+      </Route> */}
       {/* <Route path="/homepage" render={props => 
   (<Homepage {...props} pieceOfState={this.state.pieceOfState}/>)
 }/> */}

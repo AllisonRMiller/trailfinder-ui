@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 // import axios from 'axios';
 // import {
 //     BrowserRouter as Router,
@@ -21,7 +21,11 @@ function Landing(props) {
   //     // console.log(e);
   //     setAddress(e)
   // };
+//   useEffect(() => {
+//     props.logged();
+//     console.log(props.isLoggedIn)
 
+// }, [props.isLoggedIn, props.logged, props])
 
 
   // if (results.data.success === 1) {

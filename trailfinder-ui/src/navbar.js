@@ -19,15 +19,27 @@ const AllNav = (props) => {
   // Working on conditional rendering with hooks
   // Need to change appearance of login/signup if a user is already logged in
 
-  // let UserButtons;
-useEffect(() => {
-  console.log(props.isLoggedIn);
+//  const logged = (props) =>{
+//    var token = localStorage.getItem('userinfo.token');
+//    console.log(token);
+//    if (token !== null){
+//      props.setIsLoggedIn(true);
+//     props.setAuth(JSON.parse(token))
+//    }
+//  }
 
-}, [props.isLoggedIn])
+
+
+// useEffect(() => {
+//     props.logged();
+//     console.log(props.isLoggedIn)
+
+// }, [props.isLoggedIn, props.logged, props])
 
 
   const userControls = () => {
-    if (props.isLoggedIn) {
+    // logged();
+    if (props.token !== null) {
       // debugger;
       return (
         <>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Col, CardTitle, Button, Container, Card, CardBody, CardSubtitle, Badge, CardText } from 'reactstrap';
 
 
@@ -8,6 +8,12 @@ const Dashboard = (props) => {
 
     const user = JSON.parse(localStorage.getItem("userInfo"));
     console.log(user.user);
+
+    // useEffect(() => {
+    //     props.logged();
+    //     console.log(props.isLoggedIn)
+    
+    // }, [props.isLoggedIn, props.logged, props])
 
 
     return (
