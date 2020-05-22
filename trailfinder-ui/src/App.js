@@ -61,7 +61,7 @@ const phoneHomeDash = async () => {
   const info = { user_id: user.user.id };
 
 
-  await axios.post(`http://localhost:8000/api/viewSaved`, info)
+  await axios.post('https://fleet-joy-276912.uk.r.appspot.com/api/viewSaved', info)
       .then(async function (response) {
           // debugger;
           console.log(response);
@@ -147,7 +147,7 @@ const phoneHomeDash = async () => {
 //headers: { Authorization: "Bearer " +auth.token}
   //}
 
-  //   await axios.post(`http://localhost:8000/api/logout`, logoutInfo)
+  //   await axios.post(`https://fleet-joy-276912.uk.r.appspot.com/api/logout`, logoutInfo)
   //     .then(async function (response) {
   //       console.log(response);
   //       return response.data;
@@ -168,7 +168,7 @@ const phoneHomeDash = async () => {
   //Perform API call and provide paramaters, save response, and redirect to display page or error page
   const phoneHome = async (latLng) => {
 
-    await axios.post(`http://localhost:8000/api/search`, latLng)
+    await axios.post('https://fleet-joy-276912.uk.r.appspot.com/api/search', latLng)
       .then(async function (response) {
         console.log(response);
         await setResults(response);
@@ -241,7 +241,7 @@ const phoneHomeDash = async () => {
         id: id
     }
 
-    await axios.post(`http://localhost:8000/api/singleTrail`, data)
+    await axios.post('https://fleet-joy-276912.uk.r.appspot.com/api/singleTrail', data)
         .then(async function (response) {
             console.log(response);
             // await set(response);

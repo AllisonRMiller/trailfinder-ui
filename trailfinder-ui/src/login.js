@@ -32,7 +32,7 @@ const LoginForm = (props) => {
       password: password,
     };
 
-    axios.post('http://127.0.0.1:8000/api/login', credentials)
+    axios.post('https://fleet-joy-276912.uk.r.appspot.com/api/login', credentials)
       .then(response => {
         props.setUserInfo(response.data);
         console.log("Logged in: ", response);
@@ -46,7 +46,7 @@ const LoginForm = (props) => {
       });
   }
 
-  const registerUser = (e) => {
+  const registerUser = async (e) => {
     e.preventDefault();
     const credentials = {
       name: name,
@@ -54,7 +54,7 @@ const LoginForm = (props) => {
       password: password,
     };
 
-    axios.post('http://127.0.0.1:8000/api/register', credentials)
+     await axios.post('https://fleet-joy-276912.uk.r.appspot.com/api/register', credentials)
       .then(response => {
         props.setUserInfo(response.data);
         console.log("Registered: ", response);
