@@ -4,9 +4,24 @@ body {
 
 #landing-jumbo{
     background-image: url("Summer_Trip_2016_pt_1_117.JPG");
-    width: 100vw;
-    height: 90vh;
+    /* width: 100vw; */
+    height: 92vh;
     background-size: cover;
     background-position: 10%;
     overflow: hidden;
+  }
+
+ #dropdown {
+    z-index: 2000;
+    position: relative;
+  }
+
+  #input, #hike {
+      position: absolute;
+
+  }
+
+
+  #hike {
+    margin-left: -5%;
   }

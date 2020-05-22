@@ -38,25 +38,66 @@ function SearchResults(props) {
           
         }
 
+
+        // useEffect(() => {
+        //     props.logged();
+        //     console.log(props.isLoggedIn)
+        
+        // }, [props.isLoggedIn, props.logged, props])
 //new window.google.maps.LatLng(marker.position.lat(), marker.position.lng())
 
-    useEffect(() => {
-        console.log("FIREST THE EFFECTS!:", props);
+var searchStuff= {};
+var localSearchStuff = {};
+if (localStorage.getItem("results")!==null){
+    localSearchStuff = JSON.parse(localStorage.getItem("results"))
+};
+
+var latLng = {};
+var localLatLng = {};
+if (localStorage.getItem("latLng")!==null){
+    localLatLng = JSON.parse(localStorage.getItem("latLng"))
+}
+var searchAddress = "";
+var localAddress = "";
+if (localStorage.getItem("address")!==null){
+    localAddress = JSON.parse(localStorage.getItem("address"));
+}
+if (localSearchStuff !== null){
+    searchStuff= localSearchStuff
+    
+}
+else {
+    searchStuff= props.results
+}
+if (localLatLng !== null){
+    latLng=localLatLng
+}else{
+    latLng=props.latLong
+}
+if (localAddress !== null){
+    searchAddress=localAddress
+}else {
+    searchAddress=props.address
+}
+// debugger;
+useEffect(() => {
+    console.log("FIREST THE EFFECTS!:", props, localSearchStuff, localLatLng);
         if (props.googleMapsReady) {
             // debugger;
-            const gmap = createGoogleMap(props.latLong);
+            const gmap = createGoogleMap(latLng);
             const bounds = new window.google.maps.LatLngBounds();
             // debugger;
-            props.results.data.trails.map(function(x){const marker = createMarker(x,gmap); 
+            searchStuff.data.trails.map(function(x){const marker = createMarker(x,gmap); 
                 const loc = new window.google.maps.LatLng(
                     x.latitude, x.longitude
                     )
+                    // debugger;
                     bounds.extend(loc);
                 });
             gmap.fitBounds(bounds);
             gmap.panToBounds(bounds);
         }
-}, [props.googleMapsReady, props]);
+}, [props.googleMapsReady, props, localSearchStuff, localLatLng, latLng, searchStuff]);
 
 
 // createGoogleMap(props.latLong);
@@ -113,16 +154,16 @@ function SearchResults(props) {
 
 return (
     <div id="resultsrender">
-        <Container mt-5 mw-75 mh-75 center="true" className="bg-white">
-            <Row mt-5>
+        <Container mw-75="true" mh-75="true" center="true" className="bg-white">
+            <Row>
                 <Col>
-                    <h2>Hikes near {props.address}</h2>
+                    <h2>Hikes near {searchAddress}</h2>
                     <Container>
                         <Row>
 
-                            <Col m-3 id="resultsDisplay">
+                            <Col m-3="true" id="resultsDisplay">
 
-                                {props.results.data.trails.map(x => props.generateResults(x))}
+                                {searchStuff.data.trails.map(x => props.generateResults(x))}
                             </Col>
                             <Col m-9>
                                 <Card>

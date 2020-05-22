@@ -1,8 +1,4 @@
-#resultsDisplay {
-    overflow: auto;
-}
-
-#resultsrender {
+#userrender {
     background-image: url("Summer_Trip_2016_pt_1_373.JPG");
     height: 92vh;
     background-size: cover;

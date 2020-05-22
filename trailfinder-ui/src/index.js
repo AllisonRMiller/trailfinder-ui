@@ -10,7 +10,7 @@ import AllNav from './navbar';
 
 ReactDOM.render(
   <React.StrictMode>
-  <AllNav />
+  {/* <AllNav /> */}
     <App />
   </React.StrictMode>,
   document.getElementById('root')

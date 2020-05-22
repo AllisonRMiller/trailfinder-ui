@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 // import axios from 'axios';
 // import {
 //     BrowserRouter as Router,
@@ -15,72 +15,14 @@ import './landing.css';
 
 function Landing(props) {
 
-  // const [address, setAddress] = useState('');
-  // const [results, setResults] = useState({});
-  // const handleChange = (e) => {
-  //     // console.log(e);
-  //     setAddress(e)
-  // };
-
-
-
-  // if (results.data.success === 1) {
-  //     history.push('/searchresults')
-  // }
-  // else {
-
-  //         <Redirect
-  //             to={{
-  //                 pathname: "/error"
-  //             }
-  //             }
-  //         />
-
-
-
-  // const handleSelect = () =>
-  //     geocodeByAddress(address)
-  //         .then(result => getLatLng(result[0]))
-  //         .then(latLng => phoneHome(latLng)
-  //             // console.log("Success!", latLng)
-  //         )
-  //         .catch(error => console.error('Error: ', error));
-
-  // const phoneHome = async (latLng) => {
-  //     await axios.post(`http://localhost:8000/api/search`, latLng)
-  //         .then(function (response) {
-  //             console.log(response);
-  //             setResults(response);
-  //         }
-  //         )
-  //         // .then(console.log(results))
-  //         .catch(error => console.log('Error: ', error))
-  //         .then(pickRoute())
-  //     console.log(results);
-  // }
-
-  // const pickRoute = () =>
-  //     results.success === 1 ? <Redirect
-  //         to={{
-  //             pathname: "/searchresults",
-  //             state: results
-  //         }
-  //         }
-  //     /> :
-  //         <Redirect
-  //             to={{
-  //                 pathname: "/error",
-  //                 state: results
-  //             }
-  //             }
-  //         />;
+  
 
 
   return (
-    <div>
+    <Container fluid id="landing-jumbo">
       <Row>
         <Col>
-          <Jumbotron id="landing-jumbo" className="jumbotron-fluid text-center m-0 justify-content-center bg-dark text-light">
+          <Container fluid className="text-center mt-5 justify-content-center bg-none text-light">
             <Container fluid>
               <img src={logo}></img>
               {/* <h1 className="display-3">Trailfinder</h1> */}
@@ -98,15 +40,15 @@ function Landing(props) {
                       // onSubmit={handleSelect}
                       >
                         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-                          <div>
+                          <div id="input" className="w-25">
                             <Input
                               {...getInputProps({
                                 placeholder: 'Search Places ...',
                                 className: 'location-search-input',
                               })}
                             />
-                            <Dropdown>
-                              {loading && <div>Loading...</div>}
+                            <Dropdown id="dropdown">
+                              {loading && <div >Loading...</div>}
                               {suggestions.map(suggestion => {
                                 const className = suggestion.active
                                   ? 'suggestion-item--active bg-info text-dark'
@@ -134,17 +76,17 @@ function Landing(props) {
                                             placeholder="search placeholder"
                                         /> */}
                     </FormGroup>
-                    <Button onClick={props.handleSelect} color="primary">Take a hike!</Button>
+                    <Button className="mt-5" id="hike" onClick={props.handleSelect} color="primary">Take a hike!</Button>
                     {/* Post user input to path */}
                   </Form>
 
                 </Col>
               </Row>
             </Container>
-          </Jumbotron>
+          </Container>
         </Col>
       </Row>
-    </div>
+    </Container>
   );
 };
 
