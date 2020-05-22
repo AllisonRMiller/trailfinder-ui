@@ -43,7 +43,7 @@ function Trail(props) {
     //         id: id
     //     }
 
-    //     await axios.post(`http://localhost:8000/api/singleTrail`, data)
+    //     await axios.post(`https://fleet-joy-276912.uk.r.appspot.com/api/singleTrail`, data)
     //         .then(async function (response) {
     //             console.log(response);
     //             // await set(response);
@@ -208,7 +208,7 @@ function Trail(props) {
         };
         console.log(data);
 
-        await axios.post('http://localhost:8000/api/addTrail', data)
+        await axios.post('https://fleet-joy-276912.uk.r.appspot.com/api/addTrail', data)
             .then(async function (response) {
                 console.log(response);
             }

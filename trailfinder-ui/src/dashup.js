@@ -27,7 +27,7 @@ const Dashboard = (props) => {
         const info = { user_id: user.user.id };
 
 
-        await axios.post(`http://localhost:8000/api/viewSaved`, info)
+        await axios.post(`https://fleet-joy-276912.uk.r.appspot.com/api/viewSaved`, info)
             .then(async function (response) {
                 debugger;
                 console.log(response);

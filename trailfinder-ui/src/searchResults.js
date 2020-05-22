@@ -158,7 +158,7 @@ return (
             <Row>
                 <Col>
                     <h2>Hikes near {searchAddress}</h2>
-                    <Container>
+                    <Container className="mb-3">
                         <Row>
 
                             <Col m-3="true" id="resultsDisplay">
@@ -167,12 +167,12 @@ return (
                             </Col>
                             <Col m-9>
                                 <Card>
-                                    <CardTitle>Map Placeholder</CardTitle>
+                                    {/* <CardTitle>Map Placeholder</CardTitle> */}
                                     <CardBody>
                                         <div
                                             id="google-map"
                                             ref={googleMapRef}
-                                            style={{ width: '400px', height: '300px' }}
+                                            style={{ width: '500px', height: '300px' }}
                                         />
                                     </CardBody>
                                 </Card>
