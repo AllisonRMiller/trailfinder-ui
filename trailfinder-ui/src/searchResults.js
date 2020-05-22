@@ -47,11 +47,21 @@ function SearchResults(props) {
 //new window.google.maps.LatLng(marker.position.lat(), marker.position.lng())
 
 var searchStuff= {};
-var localSearchStuff = JSON.parse(localStorage.getItem("results"));
+var localSearchStuff = {};
+if (localStorage.getItem("results")!==null){
+    localSearchStuff = JSON.parse(localStorage.getItem("results"))
+};
+
 var latLng = {};
-var localLatLng = JSON.parse(localStorage.getItem("latLng"));
+var localLatLng = {};
+if (localStorage.getItem("latLng")!==null){
+    localLatLng = JSON.parse(localStorage.getItem("latLng"))
+}
 var searchAddress = "";
-var localAddress = JSON.parse(localStorage.getItem("address"));
+var localAddress = "";
+if (localStorage.getItem("address")!==null){
+    localAddress = JSON.parse(localStorage.getItem("address"));
+}
 if (localSearchStuff !== null){
     searchStuff= localSearchStuff
     

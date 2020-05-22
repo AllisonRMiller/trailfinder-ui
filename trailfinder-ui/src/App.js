@@ -37,7 +37,7 @@ function App() {
 
   //State
   const [address, setAddress] = useState('');
-  const [results, setResults] = useState({});
+  const [results, setResults] = useState(null);
   const [latLong, setLatLong] = useState({});
   const [googleMapsReady, setGoogleMapsReady] = useState(false);
   var userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -45,13 +45,46 @@ function App() {
   const [user, setUser] = useState(userInfo);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [auth, setAuth] = useState({});
+  const [savedResponse, setSavedResponse] = useState();
+  const [trail, setTrail] = useState();
 
   // const googleMapRef = useRef();
 
-useEffect(() => {
-  console.log("Are we logged in?: ", isLoggedIn);
+// useEffect(() => {
+//   console.log("Are we logged in?: ", isLoggedIn);
 
-}, [isLoggedIn]);
+// }, [isLoggedIn]);
+
+const phoneHomeDash = async () => {
+  var user = JSON.parse(localStorage.getItem("userInfo"));
+
+  const info = { user_id: user.user.id };
+
+
+  await axios.post(`http://localhost:8000/api/viewSaved`, info)
+      .then(async function (response) {
+          // debugger;
+          console.log(response);
+          // debugger;
+          await setSavedResponse(response.data);
+          // debugger;
+          await localStorage.setItem("savedResponse", JSON.stringify(response.data))
+          // debugger;
+
+          // {
+          history.push('/dashboard');
+          //             }
+          //             else {
+          //               history.push('/error')
+          //             }
+      }
+      )
+      // .then(console.log(results))
+      .catch(function (error) {
+          console.log('Error: ', error);
+          // history.push('/error')
+      })
+}
 
 
   const setUserInfo = (info) => {
@@ -106,8 +139,8 @@ useEffect(() => {
     setAddress(e);
 
   };
-
-  const token = JSON.parse(localStorage.getItem('userInfo')).token;
+  var token= null;
+  if (localStorage.getItem('userInfo')!==null){token = JSON.parse(localStorage.getItem('userInfo')).token;}
   // const logout = () =>{
 
   // const logoutInfo = {
@@ -160,8 +193,11 @@ useEffect(() => {
       })
   }
 
+
+
   //Displays a list of trails from provided data
   const generateResults = (x) => {
+    // debugger;
     var id = x.id
     var name = x.name
     var stars = x.stars
@@ -199,11 +235,88 @@ useEffect(() => {
   }
 
 
+  const phoneHomeTrail = async (id) => {
+    console.log(id);
+    const data = {
+        id: id
+    }
+
+    await axios.post(`http://localhost:8000/api/singleTrail`, data)
+        .then(async function (response) {
+            console.log(response);
+            // await set(response);
+            // thisTrail = response.data.trails.find(trail => trail.id == id)
+            await localStorage.setItem("thisTrail", JSON.stringify(response.data.trails.find(trail => trail.id == id)));
+        
+            // setLatLong(latLng);
+            // localStorage.setItem("latLng", JSON.stringify(latLng));
+            // localStorage.setItem("address", JSON.stringify(address));
+            // debugger;
+            // pickRoute();
+                if (response.data.success === 1 && response.data.trails.length !== 0) {
+                  history.push('/trail/' + id)
+                }
+                else {
+                  history.push('/error')
+                }
+        }
+        )
+        // .then(console.log(results))
+        .catch(function (error) {
+            console.log('Error: ', error);
+            history.push('/error')
+        })
+}
+
+  const generateResultsDash = (x) => {
+    // debugger;
+    var id = x.api_id
+    var name = x.name
+    var stars = x.stars
+    var eStar = <FontAwesomeIcon icon={farStar} />
+    var fStar = <FontAwesomeIcon icon={fasStar} />
+    var difficulty = x.difficulty
+    var badgecolor = x.difficulty
+    if (x.difficulty === "black") {
+      difficulty = "Difficult";
+      badgecolor = "dark"
+    }
+    else if (x.difficulty === "blue") {
+      difficulty = "Intermediate";
+      badgecolor = "success"
+    }
+    else {
+      difficulty = "Easy";
+      badgecolor = "primary"
+    }
+
+
+    return (
+      <Card key={id} id={id}>
+        {/* <Link to={{ pathname: "/trail/" + id }} className="stretched-link"> */}
+        <CardTitle onClick={()=>phoneHomeTrail(id)} text="dark">{name}</CardTitle>
+        {/* </Link> */}
+        <CardSubtitle>
+          <Badge color={badgecolor} text="light">{difficulty}</Badge>
+          <Rating
+            initialRating={stars}
+            emptySymbol={eStar}
+            fullSymbol={fStar}
+            readonly
+            className="text-primary"
+          />
+        </CardSubtitle>
+      </Card>
+    )
+  }
+
+
 
   // Router handling pathing to pages
   return (
     <div>
     <AllNav
+    phoneHomeDash={phoneHomeDash}
     token={token}
     // isLoggedIn={isLoggedIn}
     // setAuth={setAuth}
@@ -226,6 +339,8 @@ useEffect(() => {
       <Route path="/login">
         <LoginForm
           setUserInfo={setUserInfo}
+          phoneHomeDash={phoneHomeDash}
+
           isSignup={false}
         // state={this.state}
         />
@@ -233,7 +348,7 @@ useEffect(() => {
       <Route path="/signup">
         <LoginForm
           setUserInfo={setUserInfo}
-
+          phoneHomeDash={phoneHomeDash}
           isSignup={true}
         // login={signup}
         // state={this.state}
@@ -268,13 +383,21 @@ useEffect(() => {
       <Route path="/error"
       >
         <Error 
-              isLoggedIn={isLoggedIn}
-      logged={logged}
+      //         isLoggedIn={isLoggedIn}
+      // logged={logged}
         />
       </Route>
+      {/* <Route path="/dashcall">
+        <DashCall 
+          phoneHomeDash={phoneHomeDash}
+        />
+      </Route> */}
+
       <Route path="/dashboard">
         <Dashboard
                 token={token}
+                generateResultsDash={generateResultsDash}
+                savedResponse={savedResponse}
           // user={user}
         />
       </Route>

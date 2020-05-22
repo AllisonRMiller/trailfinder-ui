@@ -1,18 +1,20 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import {
     useHistory
-  } from 'react-router-dom';
+} from 'react-router-dom';
 import Rating from 'react-rating';
 import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as fasStar, faMapSigns, faHiking } from '@fortawesome/free-solid-svg-icons';
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
 import { Row, Col, CardTitle, CardImg, Container, Card, CardSubtitle, CardText, CardBody, Badge, CardFooter, Button } from 'reactstrap';
+import './trail.css';
 
 
 function Trail(props) {
     let { id } = useParams();
+    // const [thisTrail, setThisTrail] = useState();
     console.log("Arrived at Trail", props.isLoggedIn)
     const history = useHistory();
 
@@ -34,6 +36,40 @@ function Trail(props) {
         })
     }
 
+
+    // const phoneHomeTrail = async (id) => {
+    //     console.log(id);
+    //     const data = {
+    //         id: id
+    //     }
+
+    //     await axios.post(`http://localhost:8000/api/singleTrail`, data)
+    //         .then(async function (response) {
+    //             console.log(response);
+    //             // await set(response);
+    //             thisTrail = response.data.trails.find(trail => trail.id == id)
+    //             await localStorage.setItem("thisTrail", JSON.stringify(response.data.trails.find(trail => trail.id == id)));
+            
+    //             // setLatLong(latLng);
+    //             // localStorage.setItem("latLng", JSON.stringify(latLng));
+    //             // localStorage.setItem("address", JSON.stringify(address));
+    //             // debugger;
+    //             // pickRoute();
+    //             //     if (response.data.success === 1 && response.data.trails.length !== 0) {
+    //             //       history.push('/searchresults')
+    //             //     }
+    //             //     else {
+    //             //       history.push('/error')
+    //             //     }
+    //         }
+    //         )
+    //         // .then(console.log(results))
+    //         .catch(function (error) {
+    //             console.log('Error: ', error);
+    //             history.push('/error')
+    //         })
+    // }
+
     // Places a marker on the map
     const createMarker = (x, gmap) => {
         console.log(x);
@@ -43,21 +79,45 @@ function Trail(props) {
         })
 
     }
-    var localResults = JSON.parse(localStorage.getItem("results"));
+
     var thisTrail = {}
-    if (localResults != null){
-        thisTrail = localResults.data.trails.find(trail => trail.id == id)
-    } else{
-        thisTrail = props.results.data.trails.find(trail => trail.id == id)
+    const checkTrail = () => {
+        var localResults = null;
+        var notThisTrail = null;
+
+
+
+        if (localStorage.getItem("results") !== null) { localResults = JSON.parse(localStorage.getItem("results")) }
+        debugger;
+
+        if (localStorage.getItem("thisTrail")!==null) {notThisTrail = JSON.parse(localStorage.getItem("thisTrail")) }
+
+
+        if (localResults !== null) {
+            thisTrail= localResults.data.trails.find(trail => trail.id == id)? localResults.data.trails.find(trail => trail.id == id) : notThisTrail ;
+            debugger;
+        } 
+        else{
+            thisTrail = notThisTrail;
+            debugger;
+        } 
+
+
+//         if (notThisTrail == 'undefined') {
+//             phoneHomeTrail(id);
+// debugger;
+//         } else {thisTrail = notThisTrail}
+
+
     }
-    
+    checkTrail();
     console.log(thisTrail);
     //new window.google.maps.LatLng(marker.position.lat(), marker.position.lng())
 
     // useEffect(() => {
     //     props.logged();
     //     console.log(props.isLoggedIn)
-    
+
     // }, [props.isLoggedIn, props.logged, props])
 
 
@@ -131,27 +191,37 @@ function Trail(props) {
     };
 
 
-    const saveTrail = async (id) => {
+    const saveTrail = async () => {
+        var user = JSON.parse(localStorage.getItem("userInfo"));
+        debugger;
+        console.log(user.user.id);
+        debugger;
 
-        const data ={
-            headers: {Authorization: "Bearer " + props.token},
-            api_id: id
+        const data = {
+            // headers: {Authorization: "Bearer " + props.token},
+            user_id: user.user.id,
+            api_id: id,
+            stars: stars,
+            difficulty: thisTrail.difficulty,
+            name: thisTrail.name
+
         };
         console.log(data);
 
-            await axios.post('http://localhost:8000/api/trail', data)
-              .then(async function (response) {
+        await axios.post('http://localhost:8000/api/addTrail', data)
+            .then(async function (response) {
                 console.log(response);
-              }
-              )
-              // .then(console.log(results))
-              .catch(function (error) {
+            }
+            )
+            // .then(console.log(results))
+            .catch(function (error) {
                 console.log('Error: ', error);
                 history.push('/error')
-              })
-          }
-    
+            })
+    }
 
+    var displayImage = thisTrail.imgMedium !== "" ?
+        thisTrail.imgMedium : "./placeholderImage.png";
 
 
 
@@ -160,12 +230,12 @@ function Trail(props) {
             <Container mw-75="true" mh-75="true" center="true" className="bg-white">
                 <Row>
                     <Col>
-                        <h3 className="bg-white mt-3 mb-3">{thisTrail ? thisTrail.name : null}</h3>
-                        {props.token!==null && 
-                        <Button 
-                        onClick={()=>saveTrail(id)} 
-                        className="float-right button-primary">{hikeSave} Save Trail</Button>
+                        {props.token !== null &&
+                            <Button
+                                onClick={() => saveTrail()}
+                                color="primary" className="float-right mt-4">{hikeSave} Save Trail</Button>
                         }
+                        <h3 className="bg-white mt-3 mb-3">{thisTrail ? thisTrail.name : null}</h3>
                         <Badge color={badgecolor} className="mr-2 text-light">{difficulty}</Badge>
                         <Rating
                             initialRating={stars}
@@ -174,11 +244,11 @@ function Trail(props) {
                             readonly
                             className="text-primary"
                         />
-                        <Container className="mb-3">
+                        <Container className="mb-3 mt-2">
 
                             <Row>
 
-                                <Col className="mt-4" id="trailDisplay">
+                                <Col id="trailDisplay">
 
                                     <Card>
                                         <CardBody>
@@ -190,33 +260,33 @@ function Trail(props) {
                                             <Row>
                                                 <Col>
                                                     <CardText>
-                                                        Length:<br/>
+                                                        Length:<br />
                                                         {/* </CardText> */}
                                                         {/* <CardText> */}
                                                         {thisTrail.length} miles
                                                     </CardText>
                                                 </Col>
                                                 <Col>
-                                                    <CardText> Ascent:<br/>
+                                                    <CardText> Ascent:<br />
                                                         {/* </CardText> */}
                                                         {/* <CardText>  */}
                                                         {thisTrail.ascent}'
-                                                        
+
                                                    </CardText>
                                                     <CardText>
-                                                        Descent:<br/>
+                                                        Descent:<br />
                                                         {/* </CardText>
                                                     <CardText>  */}
                                                         {thisTrail.descent}'</CardText>
                                                 </Col>
                                                 <Col>
-                                                    <CardText> Highest point:<br/>
+                                                    <CardText> Highest point:<br />
                                                         {/* </CardText>
                                                    <CardText>  */}
                                                         {thisTrail.high}'
                                                    </CardText>
                                                     <CardText>
-                                                        Lowest point:<br/>
+                                                        Lowest point:<br />
                                                         {/* </CardText>
                                                    <CardText>  */}
                                                         {thisTrail.low}'</CardText>
@@ -227,17 +297,25 @@ function Trail(props) {
                                         <CardBody>
                                             <CardTitle><h5>Trail conditions:</h5></CardTitle>
                                             <CardBody className="ml-3"><h5 className={conditionColor}>{conditionInd} {thisTrail.conditionStatus}</h5>
-                                            <CardSubtitle>{thisTrail.conditionDetails}</CardSubtitle>
-                                            {/* <CardSubtitle>last updated: {condUpdate}</CardSubtitle> */}
+                                                <CardSubtitle>{thisTrail.conditionDetails}</CardSubtitle>
+                                                {/* <CardSubtitle>last updated: {condUpdate}</CardSubtitle> */}
                                             </CardBody>
                                         </CardBody>
                                     </Card>
+                                    <Card className="mt-2">
+                                        <CardBody>
+                                            <div
+                                                id="google-map"
+                                                ref={googleMapRef}
+                                                style={{ width: '500px', height: '300px' }}
+                                            />
+                                        </CardBody>
+                                    </Card>
                                 </Col>
-                                <Col m-9>
+                                <Col>
                                     <Card>
                                         <CardBody>
-                                            <CardImg src={thisTrail.imgMedium ? 
-                                                thisTrail.imgMedium : "./placeholderImage.png"}></CardImg>
+                                            <CardImg src={displayImage}></CardImg>
                                         </CardBody>
                                     </Card>
                                 </Col>
@@ -245,7 +323,7 @@ function Trail(props) {
                             <Row>
                                 <Col>
 
-                                    <Card className="mt-2">
+                                    {/* <Card className="mt-2">
                                         <CardBody>
                                             <div
                                                 id="google-map"
@@ -253,7 +331,7 @@ function Trail(props) {
                                                 style={{ width: '400px', height: '300px' }}
                                             />
                                         </CardBody>
-                                    </Card>
+                                    </Card> */}
                                 </Col>
                                 <Col>
 
