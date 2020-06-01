@@ -44,7 +44,7 @@ const AllNav = (props) => {
       return (
         <>
         <NavItem>
-          <NavLink onClick={()=>props.phoneHomeDash()}>Dashboard</NavLink>
+          <NavLink href="#" onClick={()=>props.phoneHomeDash()}>Dashboard</NavLink>
         </NavItem>
         <NavItem>
           <NavLink href="/logout">Logout</NavLink>

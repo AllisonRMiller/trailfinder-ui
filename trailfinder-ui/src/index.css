@@ -11,3 +11,8 @@ body {
 .navbar{
   margin-bottom: 0px;
 }
+
+
+.button, .navlink, .dashcard {
+  cursor: pointer
+}

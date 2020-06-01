@@ -292,11 +292,11 @@ const phoneHomeDash = async () => {
 
 
     return (
-      <Card key={id} id={id}>
+      <Card onClick={()=>phoneHomeTrail(id)} key={id} id={id} className="dashcard">
         {/* <Link to={{ pathname: "/trail/" + id }} className="stretched-link"> */}
-        <CardTitle onClick={()=>phoneHomeTrail(id)} text="dark">{name}</CardTitle>
+        <CardTitle className="dashcard" text="dark">{name}</CardTitle>
         {/* </Link> */}
-        <CardSubtitle>
+        <CardSubtitle className="dashcard">
           <Badge color={badgecolor} text="light">{difficulty}</Badge>
           <Rating
             initialRating={stars}
