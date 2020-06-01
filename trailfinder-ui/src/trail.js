@@ -231,7 +231,7 @@ function Trail(props) {
                 <Row>
                     <Col>
                         {props.token !== null &&
-                            <Button
+                            <Button href="#"
                                 onClick={() => saveTrail()}
                                 color="primary" className="float-right mt-4">{hikeSave} Save Trail</Button>
                         }
